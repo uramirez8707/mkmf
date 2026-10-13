@@ -6,9 +6,9 @@
 ############
 # Commands Macros
 ############
-FC = mpiifx
-CC = mpiicx
-LD = mpiifx
+FC = mpifort
+CC = mpicc
+LD = mpifort
 
 #######################
 # Build target macros
@@ -50,7 +50,7 @@ NETCDF =             # If value is '3' and CPPDEFS contains
 
                      # A list of -I Include directories to be added to the
                      # the compile command.
-INCLUDES := $(shell pkg-config --cflags yaml-0.1)
+INCLUDES := $(shell pkg-config --cflags yaml-0.1) $(shell pkg-config --cflags hdf5_fortran)
 
                      # The Intel Instruction Set Archetecture (ISA) compile
                      # option to use.
@@ -159,6 +159,7 @@ LDFLAGS_COVERAGE = -prof-gen=srcpos
 LIBS := $(shell pkg-config --libs yaml-0.1)
 LIBS += $(shell nc-config --libs)
 LIBS += $(shell nf-config --flibs | sed -e "s/-lnetcdf //g")
+LIBS += $(shell pkg-config --libs hdf5_fortran)
 
 # Get compile flags based on target macros.
 ifdef REPRO
